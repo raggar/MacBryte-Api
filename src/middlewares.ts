@@ -10,8 +10,11 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
   res.status(statusCode);
   res.json({
-    error: true,
-    errorMessage: err.message,
+    requestStatus: {
+      error: true,
+      errorMessage: err.message,
+    },
+    data: {},
   });
 };
 

@@ -12,14 +12,18 @@ const signupHandler: RequestHandler = async (req, res, next) => {
     } else {
       UserModel.create(
         { email: validatedEmail, password: validatedPassword },
-        (err, _) => {
+        (err, result) => {
+          console.log(result);
           if (err) {
             next(err);
           } else {
             res.status(200);
             res.json({
-              error: false,
-              message: "User successfully signed up",
+              requestStatus: {
+                error: false,
+                message: "User successfully signed up",
+              },
+              data: { ...result },
             });
           }
         }
@@ -42,8 +46,11 @@ const loginHandler: RequestHandler = async (req, res, next) => {
     } else {
       if (user.password == validatedPassword) {
         res.json({
-          error: false,
-          message: "User successfully logged in",
+          requestStatus: {
+            error: false,
+            message: "User successfully logged in",
+          },
+          data: { ...user },
         });
       } else {
         throw new Error("Incorrect password");
