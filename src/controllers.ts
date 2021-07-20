@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { validateEmail, validatePassword } from "./utils";
+import { validateEmail, validatePassword, serialize } from "./utils";
 import { UserModel } from "./database/users/model";
 
 const signupHandler: RequestHandler = async (req, res, next) => {
@@ -13,17 +13,16 @@ const signupHandler: RequestHandler = async (req, res, next) => {
       UserModel.create(
         { email: validatedEmail, password: validatedPassword },
         (err, result) => {
-          console.log(result);
           if (err) {
             next(err);
           } else {
-            res.status(200);
-            res.json({
+            const serializedData = serialize(result);
+            res.status(200).json({
               requestStatus: {
                 error: false,
                 message: "User successfully signed up",
               },
-              data: { ...result },
+              data: { ...serializedData },
             });
           }
         }
@@ -45,12 +44,13 @@ const loginHandler: RequestHandler = async (req, res, next) => {
       throw new Error("User does not exist");
     } else {
       if (user.password == validatedPassword) {
-        res.json({
+        const serializedData = serialize(user);
+        res.status(200).json({
           requestStatus: {
             error: false,
             message: "User successfully logged in",
           },
-          data: { ...user },
+          data: { ...serializedData },
         });
       } else {
         throw new Error("Incorrect password");

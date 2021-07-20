@@ -7,12 +7,11 @@ const notFound: RequestHandler = (req, res, next) => {
 };
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-  res.status(statusCode);
-  res.json({
+  const statusCode = res.statusCode !== 200 ? res.statusCode : 400;
+  res.status(statusCode).json({
     requestStatus: {
       error: true,
-      errorMessage: err.message,
+      message: err.message,
     },
     data: {},
   });
