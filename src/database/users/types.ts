@@ -1,9 +1,11 @@
 import { Document, Model } from "mongoose";
 
 export enum PackagePurchased {
-  LOW = "LOW",
-  MEDIUM = "MEDIUM",
-  HIGH = "HIGH",
+  LYTE = "MacBryte Lyte",
+  BASIC = "MacBryte Basic",
+  PLUS = "MacBryte Plus",
+  PRO = "MacBryte Pro",
+  MEMBERSHIP = "MacBryte Membership",
 }
 
 export interface IUser {
@@ -21,6 +23,6 @@ export interface IUser {
   isAdmin: boolean;
 }
 
-export interface IUserDocument extends Partial<IUser>, Document {}
+export interface IUserDocument extends Partial<IUser>, Document { }
 
-export interface IUserModel extends Model<IUserDocument> {}
+export interface IUserModel extends Model<IUserDocument> { }
