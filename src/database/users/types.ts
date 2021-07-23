@@ -7,6 +7,9 @@ export enum PackagePurchased {
 }
 
 export interface IUser {
+  firstname: string;
+  lastname: string;
+  userId: string;
   email: string;
   password: string;
   zoomLink: string;
@@ -17,6 +20,7 @@ export interface IUser {
   appleId: string;
   dateOfEntry?: Date;
   lastUpdated?: Date;
+  isAdmin: boolean;
 }
 
 export interface IUserDocument extends Partial<IUser>, Document {}

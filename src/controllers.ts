@@ -3,7 +3,7 @@ import { validateEmail, validatePassword, serialize } from "./utils";
 import { UserModel } from "./database/users/model";
 
 const signupHandler: RequestHandler = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { firstname, lastname, email, password } = req.body;
   try {
     const validatedEmail = validateEmail(email);
     const validatedPassword = validatePassword(password);
@@ -11,18 +11,20 @@ const signupHandler: RequestHandler = async (req, res, next) => {
       throw new Error("Email already registered.");
     } else {
       UserModel.create(
-        { email: validatedEmail, password: validatedPassword },
+        {
+          firstname,
+          lastname,
+          email: validatedEmail,
+          password: validatedPassword,
+        },
         (err, result) => {
           if (err) {
             next(err);
           } else {
-            const serializedData = serialize(result);
             res.status(200).json({
-              requestStatus: {
-                error: false,
-                message: "User successfully signed up",
-              },
-              data: { ...serializedData },
+              error: false,
+              requestMessage: "User successfully signed up",
+              userId: result._id,
             });
           }
         }
@@ -35,22 +37,19 @@ const signupHandler: RequestHandler = async (req, res, next) => {
 
 const loginHandler: RequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
-
   try {
     const validatedEmail = validateEmail(email);
     const validatedPassword = validatePassword(password);
     const user = await UserModel.findOne({ email: validatedEmail });
     if (!user) {
+      console.log("hello");
       throw new Error("User does not exist");
     } else {
       if (user.password == validatedPassword) {
-        const serializedData = serialize(user);
         res.status(200).json({
-          requestStatus: {
-            error: false,
-            message: "User successfully logged in",
-          },
-          data: { ...serializedData },
+          error: false,
+          requestMessage: "User successfully logged in",
+          userId: user._id,
         });
       } else {
         throw new Error("Incorrect password");
@@ -61,7 +60,27 @@ const loginHandler: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getUserInformationHandler: RequestHandler = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    const user = await UserModel.findOne({ _id: userId });
+    if (!user) {
+      throw new Error("User not found");
+    } else {
+      const data = serialize(user);
+      res.status(200).json({
+        requestMessage: "User data successfully retrieved",
+        error: false,
+        ...data,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
+  getUserInformation: getUserInformationHandler,
   signup: signupHandler,
   login: loginHandler,
 };

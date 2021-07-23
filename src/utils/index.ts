@@ -28,6 +28,9 @@ export const validatePassword = (rawPassword: string) => {
 
 export const serialize = (data: IUserDocument) => {
   const serializedData: IUser = {
+    firstname: data.firstname!,
+    lastname: data.lastname!,
+    userId: data._id!,
     email: data.email!,
     password: data.password!,
     zoomLink: data.zoomLink!,
@@ -36,8 +39,9 @@ export const serialize = (data: IUserDocument) => {
     grandTotalHours: data.grandTotalHours!,
     previousSessionSummary: data.previousSessionSummary!,
     appleId: data.appleId!,
-    dateOfEntry: data.dateOfEntry,
-    lastUpdated: data.lastUpdated,
+    dateOfEntry: data.dateOfEntry!,
+    lastUpdated: data.lastUpdated!,
+    isAdmin: data.isAdmin!,
   };
   return serializedData;
 };

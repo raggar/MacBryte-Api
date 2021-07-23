@@ -3,6 +3,8 @@ import { setLastUpdated } from "./methods";
 import { PackagePurchased } from "./types";
 
 const UserSchema = new Schema({
+  firstname: String,
+  lastname: String,
   email: String,
   password: String,
   zoomLink: {
@@ -37,6 +39,10 @@ const UserSchema = new Schema({
   lastUpdated: {
     type: Date,
     default: new Date(),
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
 });
 
