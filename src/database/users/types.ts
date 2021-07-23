@@ -1,6 +1,7 @@
 import { Document, Model } from "mongoose";
 
 export enum PackagePurchased {
+  NONE = "No Package",
   LYTE = "MacBryte Lyte",
   BASIC = "MacBryte Basic",
   PLUS = "MacBryte Plus",

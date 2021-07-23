@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   packagePurchased: {
     type: String,
     enum: PackagePurchased,
-    default: PackagePurchased.LYTE,
+    default: PackagePurchased.NONE,
   },
   hoursRemaining: {
     type: Number,
