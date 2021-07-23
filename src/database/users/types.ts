@@ -16,8 +16,6 @@ export interface IUser {
   packagePurchased: PackagePurchased;
   hoursRemaining: number;
   grandTotalHours: string;
-  previousSessionSummary: string[];
-  appleId: string;
   dateOfEntry?: Date;
   lastUpdated?: Date;
   isAdmin: boolean;

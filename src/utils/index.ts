@@ -37,8 +37,6 @@ export const serialize = (data: IUserDocument) => {
     packagePurchased: data.packagePurchased!,
     hoursRemaining: data.hoursRemaining!,
     grandTotalHours: data.grandTotalHours!,
-    previousSessionSummary: data.previousSessionSummary!,
-    appleId: data.appleId!,
     dateOfEntry: data.dateOfEntry!,
     lastUpdated: data.lastUpdated!,
     isAdmin: data.isAdmin!,
