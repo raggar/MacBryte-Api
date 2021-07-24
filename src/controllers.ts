@@ -25,6 +25,8 @@ const signupHandler: RequestHandler = async (req, res, next) => {
               error: false,
               requestMessage: "User successfully signed up",
               userId: result._id,
+              isAdmin: result.isAdmin,
+              zoomLink: result.zoomLink,
             });
           }
         }
@@ -42,7 +44,6 @@ const loginHandler: RequestHandler = async (req, res, next) => {
     const validatedPassword = validatePassword(password);
     const user = await UserModel.findOne({ email: validatedEmail });
     if (!user) {
-      console.log("hello");
       throw new Error("User does not exist");
     } else {
       if (user.password == validatedPassword) {
@@ -50,6 +51,8 @@ const loginHandler: RequestHandler = async (req, res, next) => {
           error: false,
           requestMessage: "User successfully logged in",
           userId: user._id,
+          isAdmin: user.isAdmin,
+          zoomLink: user.zoomLink,
         });
       } else {
         throw new Error("Incorrect password");
@@ -61,8 +64,7 @@ const loginHandler: RequestHandler = async (req, res, next) => {
 };
 
 const getUserInformationHandler: RequestHandler = async (req, res, next) => {
-  console.log(req.query._id)
-  const userId = req.query._id;
+  const { userId } = req.query;
 
   try {
     const user = await UserModel.findOne({ _id: userId });
@@ -71,6 +73,7 @@ const getUserInformationHandler: RequestHandler = async (req, res, next) => {
       throw new Error("User not found");
     } else {
       const data = serialize(user);
+      console.log("data", data);
       res.status(200).json({
         requestMessage: "User data successfully retrieved",
         error: false,

@@ -1,4 +1,4 @@
-import { Document, Model } from "mongoose";
+import { Document } from "mongoose";
 
 export enum PackagePurchased {
   NONE = "No Package",
@@ -18,12 +18,10 @@ export interface IUser {
   zoomLink: string;
   packagePurchased: PackagePurchased;
   hoursRemaining: number;
-  grandTotalHours: string;
+  grandTotalHours: number;
   dateOfEntry?: Date;
   lastUpdated?: Date;
   isAdmin: boolean;
 }
 
-export interface IUserDocument extends Partial<IUser>, Document { }
-
-export interface IUserModel extends Model<IUserDocument> { }
+export interface IUserDocument extends Partial<IUser>, Document {}
