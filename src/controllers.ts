@@ -72,12 +72,10 @@ const getUserInformationHandler: RequestHandler = async (req, res, next) => {
     if (!user) {
       throw new Error("User not found");
     } else {
-      const data = serialize(user);
-      console.log("data", data);
       res.status(200).json({
         requestMessage: "User data successfully retrieved",
         error: false,
-        ...data,
+        ...serialize(user),
       });
     }
   } catch (err) {
@@ -85,8 +83,42 @@ const getUserInformationHandler: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getAllUsersHandler: RequestHandler = async (req, res, next) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).json({
+      requestMessage: "Users successfully retrieved",
+      error: false,
+      users: users.map((user) => serialize(user)),
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updateUserHandler: RequestHandler = async (req, res, next) => {
+  const { userId, params } = req.body;
+  try {
+    UserModel.updateOne({ _id: userId }, params, {}, (err, result) => {
+      if (err) {
+        next(err);
+      } else {
+        res.status(200).json({
+          requestMessage: "User sucessfully updated",
+          error: false,
+          ...serialize(result),
+        });
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
+  getAllUsers: getAllUsersHandler,
   getUserInformation: getUserInformationHandler,
   signup: signupHandler,
   login: loginHandler,
+  updateUser: updateUserHandler,
 };
