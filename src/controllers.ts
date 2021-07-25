@@ -61,9 +61,12 @@ const loginHandler: RequestHandler = async (req, res, next) => {
 };
 
 const getUserInformationHandler: RequestHandler = async (req, res, next) => {
-  const { userId } = req.query;
+  console.log(req.query._id)
+  const userId = req.query._id;
+
   try {
     const user = await UserModel.findOne({ _id: userId });
+
     if (!user) {
       throw new Error("User not found");
     } else {

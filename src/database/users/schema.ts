@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   packagePurchased: {
     type: String,
     enum: PackagePurchased,
-    default: PackagePurchased.LOW,
+    default: PackagePurchased.NONE,
   },
   hoursRemaining: {
     type: Number,
@@ -23,14 +23,6 @@ const UserSchema = new Schema({
   grandTotalHours: {
     type: Number,
     default: 0,
-  },
-  previousSessionSummary: {
-    type: [String],
-    default: [],
-  },
-  appleId: {
-    type: String,
-    default: "",
   },
   dateOfEntry: {
     type: Date,
