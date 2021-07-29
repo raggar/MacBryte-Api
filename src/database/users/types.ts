@@ -20,7 +20,6 @@ export interface IUser {
   hoursRemaining: number;
   grandTotalHours: number;
   dateOfEntry?: Date;
-  lastUpdated?: Date;
   isAdmin: boolean;
 }
 

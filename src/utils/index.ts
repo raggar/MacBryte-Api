@@ -38,7 +38,6 @@ export const serialize = (data: IUserDocument) => {
     hoursRemaining: data.hoursRemaining!,
     grandTotalHours: data.grandTotalHours!,
     dateOfEntry: data.dateOfEntry!,
-    lastUpdated: data.lastUpdated!,
     isAdmin: data.isAdmin!,
   };
   return serializedData;
