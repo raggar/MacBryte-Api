@@ -108,13 +108,13 @@ const updateUsersHandler: RequestHandler = async (req, res, next) => {
             return null;
           }
         });
-        await Promise.all(updateUserPromises);
-        res.status(200).json({
-          error: false,
-          requestMessage: "Users successfully updated",
-        });
       }
     );
+    await Promise.all(updateUserPromises);
+    res.status(200).json({
+      error: false,
+      requestMessage: "Users successfully updated",
+    });
   } catch (err) {
     next(err);
   }
