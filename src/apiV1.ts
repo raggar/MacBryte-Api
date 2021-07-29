@@ -8,6 +8,6 @@ router.get("/getAll", controllers.getAllUsers);
 
 router.post("/signup", controllers.signup);
 router.post("/login", controllers.login);
-router.post("updateUser", controllers.updateUser);
+router.post("/updateUsers", controllers.updateUsers);
 
 export default router;

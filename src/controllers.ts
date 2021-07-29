@@ -96,20 +96,25 @@ const getAllUsersHandler: RequestHandler = async (req, res, next) => {
   }
 };
 
-const updateUserHandler: RequestHandler = async (req, res, next) => {
-  const { userId, params } = req.body;
+const updateUsersHandler: RequestHandler = async (req, res, next) => {
+  const { updatedUsers } = req.body;
   try {
-    UserModel.updateOne({ _id: userId }, params, {}, (err, result) => {
-      if (err) {
-        next(err);
-      } else {
+    const updateUserPromises = updatedUsers.map(
+      async ({ userId, ...params }) => {
+        UserModel.updateOne({ _id: userId }, params, {}, (err, result) => {
+          if (err) {
+            throw err;
+          } else {
+            return null;
+          }
+        });
+        await Promise.all(updateUserPromises);
         res.status(200).json({
-          requestMessage: "User sucessfully updated",
           error: false,
-          ...serialize(result),
+          requestMessage: "Users successfully updated",
         });
       }
-    });
+    );
   } catch (err) {
     next(err);
   }
@@ -120,5 +125,5 @@ export default {
   getUserInformation: getUserInformationHandler,
   signup: signupHandler,
   login: loginHandler,
-  updateUser: updateUserHandler,
+  updateUsers: updateUsersHandler,
 };
