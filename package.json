@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
-    "build": "tsc --project ./"
+    "build": "tsc --project ./",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "Rahul Aggarwal",
