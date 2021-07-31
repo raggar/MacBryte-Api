@@ -1,6 +1,12 @@
 import { RequestHandler } from "express";
-import { validateEmail, validatePassword, serialize } from "./utils";
+import {
+  validateUserInfo,
+  validateEmail,
+  validatePassword,
+  serialize,
+} from "./utils";
 import { UserModel } from "./database/users/model";
+import messages from "./utils/messages";
 
 const signupHandler: RequestHandler = async (req, res, next) => {
   const { firstname, lastname, email, password } = req.body;
@@ -8,7 +14,7 @@ const signupHandler: RequestHandler = async (req, res, next) => {
     const validatedEmail = validateEmail(email);
     const validatedPassword = validatePassword(password);
     if ((await UserModel.find({ email: validatedEmail })).length > 0) {
-      throw new Error("Email already registered.");
+      throw new Error(messages.errors.emailRegistered);
     } else {
       UserModel.create(
         {
@@ -23,7 +29,7 @@ const signupHandler: RequestHandler = async (req, res, next) => {
           } else {
             res.status(200).json({
               error: false,
-              requestMessage: "User successfully signed up",
+              requestMessage: messages.successfulSignup,
               userId: result._id,
               isAdmin: result.isAdmin,
               zoomLink: result.zoomLink,
@@ -44,18 +50,18 @@ const loginHandler: RequestHandler = async (req, res, next) => {
     const validatedPassword = validatePassword(password);
     const user = await UserModel.findOne({ email: validatedEmail });
     if (!user) {
-      throw new Error("User does not exist");
+      throw new Error(messages.errors.unknownUser);
     } else {
       if (user.password == validatedPassword) {
         res.status(200).json({
           error: false,
-          requestMessage: "User successfully logged in",
+          requestMessage: messages.successfulLogin,
           userId: user._id,
           isAdmin: user.isAdmin,
           zoomLink: user.zoomLink,
         });
       } else {
-        throw new Error("Incorrect password");
+        throw new Error(messages.errors.incorrectPassword);
       }
     }
   } catch (err) {
@@ -70,10 +76,10 @@ const getUserInformationHandler: RequestHandler = async (req, res, next) => {
     const user = await UserModel.findOne({ _id: userId });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new Error(messages.errors.unknownUser);
     } else {
       res.status(200).json({
-        requestMessage: "User data successfully retrieved",
+        requestMessage: messages.retrievedUserData,
         error: false,
         ...serialize(user),
       });
@@ -87,7 +93,7 @@ const getAllUsersHandler: RequestHandler = async (req, res, next) => {
   try {
     const users = await UserModel.find();
     res.status(200).json({
-      requestMessage: "Users successfully retrieved",
+      requestMessage: messages.retrievedUsersData,
       error: false,
       users: users.map((user) => serialize(user)),
     });
@@ -101,6 +107,7 @@ const updateUsersHandler: RequestHandler = async (req, res, next) => {
   try {
     const updateUserPromises = updatedUsers.map(
       async ({ userId, ...params }) => {
+        validateUserInfo(params);
         UserModel.updateOne({ _id: userId }, params, {}, (err, result) => {
           if (err) {
             throw err;
@@ -113,7 +120,7 @@ const updateUsersHandler: RequestHandler = async (req, res, next) => {
     await Promise.all(updateUserPromises);
     res.status(200).json({
       error: false,
-      requestMessage: "Users successfully updated",
+      requestMessage: messages.updateUsers,
     });
   } catch (err) {
     next(err);

@@ -2,7 +2,7 @@ import express, { Response, Request } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
-
+import messages from "./utils/messages";
 import middlewares from "./middlewares";
 import apiV1 from "./apiV1";
 
@@ -17,7 +17,7 @@ app.use(express.json());
 
 // routes
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello MacBryte User, wait there is nothing here...");
+  res.send(messages.hello);
 });
 
 app.use("/apiV1", apiV1);

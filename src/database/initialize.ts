@@ -1,4 +1,5 @@
 import Mongoose, { Connection } from "mongoose";
+import messages from "../utils/messages";
 
 let database: Connection;
 
@@ -18,11 +19,11 @@ const connect = () => {
   database = Mongoose.connection;
 
   database.once("open", async () => {
-    console.log("Connected to database");
+    console.log(messages.databaseConnected);
   });
 
   database.on("error", () => {
-    console.log("Error connecting to database");
+    console.log(messages.errors.databaseNotConnected);
   });
 };
 

@@ -1,0 +1,23 @@
+export default {
+  errors: {
+    emailRegistered: "Email already registered.",
+    databaseNotConnected: "Error connecting to database",
+    unknownUser: "User does not exist.",
+    incorrectPassword: "Incorrect password.",
+    invalidPackage: "Invalid package option.",
+    noEmail: "Email must be provided.",
+    invalidEmail: "Invalid email.",
+    noPassword: "Password must be provided.",
+    invalidHoursRemaining: "Hours remaining cannot be negative.",
+    invalidGrandTotalHours: "Grand total hours cannot be negative.",
+    passwordLength: "Password too short, must be greater than 4 character",
+    invalidPasswordChars: "Password must be alphanumeric.",
+  },
+  successfulSignup: "User successfully signed up.",
+  successfulLogin: "User successfully logged in.",
+  retrievedUserData: "User data successfully retrieved.",
+  retrievedUsersData: "Users successfully retrieved.",
+  updateUsers: "Entries successfully updated.",
+  hello: "Hello MacBryte user, wait there is nothing here...",
+  databaseConnected: "Connected to database.",
+};
