@@ -46,13 +46,11 @@ const signupHandler: RequestHandler = async (req, res, next) => {
 const loginHandler: RequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const validatedEmail = validateEmail(email);
-    const validatedPassword = validatePassword(password);
-    const user = await UserModel.findOne({ email: validatedEmail });
+    const user = await UserModel.findOne({ email: email });
     if (!user) {
       throw new Error(messages.errors.unknownUser);
     } else {
-      if (user.password == validatedPassword) {
+      if (user.password == password) {
         res.status(200).json({
           error: false,
           requestMessage: messages.successfulLogin,
