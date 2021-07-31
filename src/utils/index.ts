@@ -10,11 +10,16 @@ export const validateUserInfo = (params) => {
   validateEmail(params.email);
   validatePassword(params.password);
 
-  if (
-    !Object.values(PackagePurchased)
-      .map((item) => item.toLowerCase())
-      .includes(params.packagePurchased.trim().toLowerCase())
-  ) {
+  const refinedPackagePurchased = params.packagePurchased.trim().toLowerCase();
+
+  let validatedPackagePurchased = "";
+  Object.values(PackagePurchased).forEach((enumValue) => {
+    if (enumValue.toLowerCase() == refinedPackagePurchased) {
+      validatedPackagePurchased = enumValue;
+    }
+  });
+
+  if (!validatedPackagePurchased) {
     throw new Error(messages.errors.invalidPackage);
   }
 
@@ -25,6 +30,8 @@ export const validateUserInfo = (params) => {
   if (params.grandTotalHours < 0) {
     throw new Error(messages.errors.invalidGrandTotalHours);
   }
+
+  return validatedPackagePurchased;
 };
 
 export const validateEmail = (rawEmail: string) => {

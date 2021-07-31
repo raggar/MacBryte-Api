@@ -11,7 +11,6 @@ export default {
     invalidHoursRemaining: "Hours remaining cannot be negative.",
     invalidGrandTotalHours: "Grand total hours cannot be negative.",
     passwordLength: "Password too short, must be greater than 4 character",
-    invalidPasswordChars: "Password must be alphanumeric.",
   },
   successfulSignup: "User successfully signed up.",
   successfulLogin: "User successfully logged in.",

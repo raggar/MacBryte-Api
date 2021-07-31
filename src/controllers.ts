@@ -107,7 +107,7 @@ const updateUsersHandler: RequestHandler = async (req, res, next) => {
   try {
     const updateUserPromises = updatedUsers.map(
       async ({ userId, ...params }) => {
-        validateUserInfo(params);
+        params.packagePurchased = validateUserInfo(params);
         UserModel.updateOne({ _id: userId }, params, {}, (err, result) => {
           if (err) {
             throw err;
